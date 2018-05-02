@@ -4,12 +4,15 @@ import NextHead from 'next/head'
 import NProgress from 'nprogress'
 import debounce from 'lodash.debounce'
 import RouterEvents from '../lib/router-events'
+import { pageview } from '../lib/gs'
 
 const start = debounce(NProgress.start, 200)
 RouterEvents.on('routeChangeStart', start)
-RouterEvents.on('routeChangeComplete', () => {
+RouterEvents.on('routeChangeComplete', url => {
   start.cancel()
   NProgress.done()
+
+  pageview(url)
 })
 RouterEvents.on('routeChangeError', () => {
   start.cancel()
@@ -192,11 +195,9 @@ class Head extends React.PureComponent {
             }
 
             #nprogress .peg {
-              box-shadow: ${
-                darkBg
-                  ? '0 0 10px #fff, 0 0 5px #fff'
-                  : '0 0 10px #ccc, 0 0 5px #ccc'
-              };
+              box-shadow: ${darkBg
+                ? '0 0 10px #fff, 0 0 5px #fff'
+                : '0 0 10px #ccc, 0 0 5px #ccc'};
             }
           `}
           </style>

@@ -50,6 +50,7 @@ export default class Document extends Document_ {
               insertBefore(d,q)}(window,document,'script','_gs');
 
               _gs('GSN-158080-Y');
+              _gs('set', 'trackLocal', true);
             `
             }}
           />
